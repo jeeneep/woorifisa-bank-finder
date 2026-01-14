@@ -5,21 +5,25 @@ const AccountInput = ({value, onChange, bankName}) => {
 
   // 계좌번호 입력 변경값 동기화를 위한 로직
   useEffect(() => {
-    const limitedValue = value.slice(0, 16);
-    setLocalValue(limitedValue);
-  }, [value]);
+      const limitedValue = value.slice(0, 16);
+      setLocalValue(limitedValue);
+    }, [value]);
 
   // 일정 시간 입력 없으면 부모에게 전달(변경값)
   useEffect(() => {
-    const timer = setTimeout(() => {
-    if(localValue != value) {
-      onChange(localValue);
-    }
-  }, 2000); // 2초 딜레이
+      const timer = setTimeout(() => {
+      if(localValue != value) {
+        onChange(localValue);
+      }
+    }, 2000); // 2초 딜레이
 
-  return () => clearTimeout(timer);
-  }, [localValue, onChange, value]);
+    return () => clearTimeout(timer);
+    }, [localValue, onChange, value]);
 
+  const handleClear = () => {
+    setLocalValue(''); // 화면 지우기
+    onChange(''); // 부모 상태(BankFinder)도 즉시 지우기  
+  };
 
   // useEffect의 정리 이펙트(딜레이값 전달을 위해 return 형식 변형)
   return (
@@ -45,6 +49,18 @@ const AccountInput = ({value, onChange, bankName}) => {
           readOnly
         />
       </div>
+
+      <div className="AccountInput_actions">
+        {localValue.length > 0 && (
+          <button 
+            type="button"
+            className="AccountInput_clearBtn" 
+            onClick={handleClear}
+          >
+            전체 삭제
+          </button>
+        )}
+      </div>  
     </div>
   );
 };
