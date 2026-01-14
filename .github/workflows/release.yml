@@ -1,0 +1,26 @@
+name: npm Publish
+
+# [핵심] push가 아니라 workflow_dispatch로 설정하면
+# 코드를 아무리 올려도 배포되지 않고, GitHub 웹사이트에서 버튼을 눌러야만 배포됩니다.
+# on: push: branchks: -main 으로 바꾸면 main 브랜치 push하면 바로 실행
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          registry-url: 'https://registry.npmjs.org'
+      - run: npm ci
+      - name: .npmrc 파일 생성 및 배포
+        run: |
+          echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" > .npmrc
+          npm publish
+        env:
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}

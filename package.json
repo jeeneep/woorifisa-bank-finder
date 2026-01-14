@@ -1,6 +1,6 @@
 {
-  "name": "woorifisa-bank-finder",
-  "private": true,
+  "name": "korean-bank-finder",
+  "private": false,
   "version": "0.0.0",
   "type": "module",
   "scripts": {
@@ -8,6 +8,9 @@
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview"
+  },
+  "publishConfig": {
+    "access": "public"
   },
   "dependencies": {
     "react": "^19.2.0",
