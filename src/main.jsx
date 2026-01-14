@@ -1,9 +1,5 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
-<<<<<<< Updated upstream
-=======
-import './layout.css'
->>>>>>> Stashed changes
 import App from './App.jsx'
 
 // 1. 필수 레이아웃 (항상 켜둠)
