@@ -26,8 +26,9 @@ const BankButtonList = (props) => {
                             }}
                         >
                             {/* 아이콘 */}
-                            <div className="BankButtonList_icon">
-                                {bank.bankName.charAt(0)}
+                            <div 
+                                className="BankButtonList_icon BankIcon"
+                                data-bank={bank.bankName}>
                             </div>
 
                             {/* 은행 이름 */}
