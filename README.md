@@ -12,10 +12,6 @@ npm install korean-bank-finder
 - **배포 링크**: [korean-bank-finder](https://www.npmjs.com/package/korean-bank-finder)
 
 
-## 개요
-
-### 주제 선정 이유
-
 <br>
 
 ### 컴포넌트 구조
@@ -58,8 +54,6 @@ main.jsx (Entry Point & Style Injection)
 
 <br>
 
----
-
 ## 주요 UI 작업
 
 
@@ -81,9 +75,8 @@ createRoot(document.getElementById('root')).render(
   </StrictMode>,
 )
 ```
-<br>
 
-### Headless 기반 UI
+#### Headless 기반 UI
 
 - 디자인과 기능을 분리하여 확장성 제공(CSS 커스터마이징)
 	
@@ -96,13 +89,48 @@ createRoot(document.getElementById('root')).render(
 
 <br>
 
----
 
 ## BankFinder.jsx
 
-<br>
+#### 중앙 집중형 상태 관리
+- 앱의 핵심 데이터를 BankFinder 한 곳에서 통합 관리
+- 하위 UI 컴포넌트는 스스로 상태를 갖지 않고, 부모로부터 props를 통해 데이터와 수정 함수 전달 받기
 
----
+```javascript
+// 상태(State)는 컨테이너가 소유
+const [account, setAccount] = useState('');
+const [matchedBanks, setMatchedBanks] = useState([]);
+
+return (
+  	// UI 컴포넌트에는 데이터(props)와 로직(handler)만 주입
+    <BankButtonList banks={matchedBanks} onSelect={handleSelectBank} />
+    <CustomKeypad onInput={handleKeyPress} onDelete={handleDelete} />
+);
+
+```
+
+#### 비즈니스 로직 통합 및 제어
+- `useEffect`를 통해 `account` 상태 변경을 감지하고, `detectAccountNumber` 유틸리티를 호출하여 실시간 은행 매칭 수행
+- 입력값 길이 제한(16자) 및 삭제 시 선택된 은행 초기화 등의 로직을 수행하여 잘못된 데이터가 UI로 전파되는 것을 차단
+
+```javascript
+// 로직 1. 계좌번호 변경 시 은행 매칭 수행
+useEffect(() => {
+  const results = detectAccountNumber(account);
+  setMatchedBanks(results);
+}, [account]);
+
+// 로직 2. 입력값 유효성 검사 및 상태 방어
+const handleKeyPress = (num) => {
+  setAccount((prev) => {
+    if ((prev + num).length > 16) return prev; // 길이 제한
+    return prev + num;
+  });
+};
+
+```
+
+<br>
 
 ## AccountInput.jsx
 #### 계좌번호 입력 변경값 동기화
@@ -135,8 +163,6 @@ useEffect(() => {
 ```
 
 <br>
-
----
 
 ## BankButtonList.jsx
 #### 렌더링 조건
@@ -176,8 +202,6 @@ className={`BankButtonList_item ${isSelected ? "is-selected" : ""}`}
 
 <br>
 
----
-
 ## CustomKeypad.jsx
 #### 숫자 입력 이벤트 위임
 - 숫자(0~9) 버튼 클릭 시 부모로 입력 값을 전달
@@ -209,9 +233,8 @@ const handleDeleteClick = () => {
 <button onClick={handleDeleteClick}>⌫</button>
 };
 ```
-<br>
 
----
+<br>
 
 ## Detection Logic
 
@@ -278,8 +301,6 @@ evaluate(accountNumber) {
 
 <br>
 
----
-
 ## 버전 관리
 
 ### v0.0.0: 초기 구현 단계
@@ -300,19 +321,20 @@ evaluate(accountNumber) {
 - 계좌번호 변경 시 은행 매칭을 `useEffect`에서 처리하도록 분리
 - 삭제 시 선택된 은행명(`selectedBank`)을 초기화하여 UI 일관성 강화
 
----
+<br>
 
 ## 개선할 요소 
-
-<br>
 
 **테스트**
 - 단위 테스트 수행
 
-
-**Atomic Design 패턴**
-- 현재: `BankButtonList.jsx` 컴포넌트 속에서 `map`을 돌리면서 버튼 UI(`html`)를 직접 그림 <br>
-	-> 버튼 하나만 그리는 컴포넌트를 만들고 `BankButtonList.jsx` 에서는 버튼 배치만 수행 <br>
-	-> 컴포넌트를 잘게 쪼개서 재사용성 확장
+**Atomic Design 패턴 도입**
+- **현황**
+  - `BankButtonList.jsx` 내부에서 리스트 순회(`map`)와 개별 버튼 UI 렌더링을 동시에 처리하여 결합도가 높음
+- **개선**
+  - **Atom 분리**: 개별 버튼의 UI만 담당하는 `BankItem.jsx` 컴포넌트 생성
+  - **역할 분리**: `BankButtonList.jsx`는 아이템의 배치(Layout)와 데이터 전달 역할에만 집중
+- **기대 효과**
+  - 컴포넌트 단위를 세분화하여 다른 기능(예: 즐겨찾기, 최근 송금 계좌)에서의 재사용성 확보
 
 
