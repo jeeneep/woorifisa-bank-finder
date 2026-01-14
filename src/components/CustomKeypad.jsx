@@ -21,17 +21,32 @@ const CustomKeypad = ( props ) => {
     };
 
     return (
-        <div role="group" aria-label="custom keypad">
-        {[1,2,3,4,5,6,7,8,9,0].map(n => (
+        <div className="CustomKeypad_grid">
+        {[1,2,3,4,5,6,7,8,9].map(n => (
             <button 
                 type="button" 
                 key={n} 
+                className="CustomKeypad_button"
                 onClick={() => handleDigitClick(n)}>
             {n}
             </button>
         ))}
+
+        {/* 왼쪽 하단: 빈 공간 (디자인 균형 맞추기용) */}
+        <div className="CustomKeypad_empty"></div>
+
+        {/* 중앙 하단: 숫자 0 */}
+        <button
+            type="button"
+            className="CustomKeypad_button"
+            onClick={() => handleDigitClick(0)}
+        >
+            0
+        </button>
+
         <button 
             type="button" 
+            className="CustomKeypad_button"
             onClick={handleDeleteClick}>⌫</button>
         </div>
     )
