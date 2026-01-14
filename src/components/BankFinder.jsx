@@ -7,6 +7,7 @@ const BankFinder = () => {
   // 1. 상태 정의
   const [account, setAccount] = useState('');      // 계좌번호
   const [matchedBanks, setMatchedBanks] = useState([]); // 매칭된 은행들
+  
   // 2. 로직 호출 (박지은: bankMatcher 로직 호출)
   useEffect(() => {
     // 류경록 님이 Debounce 처리된 값을 주면 더 좋고,
@@ -14,10 +15,13 @@ const BankFinder = () => {
     const results = detectAccountNumber(account);
     setMatchedBanks(results);
   }, [account]); // account가 바뀔 때마다 실행
+
   // 3. 이벤트 핸들러
   const handleInputChange = (value) => setAccount(value);
   const handleKeyPress = (num) => setAccount((prev) => prev + num);
   const handleDelete = () => setAccount((prev) => prev.slice(0, -1));
+  const handleSelectBank = (bank) => {console.log("선택한 은행:", bank.bankName);};
+  
   return (
     <div className="BankFinder_container">
       
@@ -40,6 +44,7 @@ const BankFinder = () => {
         {/* 은행 목록 */}
         <BankButtonList 
           banks={matchedBanks} 
+          onSelect={handleSelectBank}
         />
 
         {/* 키패드 */}
