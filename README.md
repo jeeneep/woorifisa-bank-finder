@@ -21,6 +21,7 @@ npm install korean-bank-finder
 ### 컴포넌트 구조
 
 ```YAML
+
 main.jsx (Entry Point & Style Injection)
  │  # 앱의 시작점
  │  # 핵심 역할: layout.css(구조)와 theme.css(디자인)를 이곳에서 import하여 주입
@@ -28,17 +29,31 @@ main.jsx (Entry Point & Style Injection)
  └─ App.jsx (Root Component)
      │  # BankFinder 컴포넌트를 마운트(Mount)하는 역할
      │
-     └─ BankFinder.jsx (Container / Page)
-         │  # 계좌번호 상태 관리, 은행 필터링 알고리즘 수행, 자식 컴포넌트 제어
+     ├─ BankFinder.jsx (Container / Page)
+     │   │  # 계좌번호 상태 관리, 자식 컴포넌트 제어
+     │   │  # 핵심 역할: 유틸 로직(detectAccountNumber)을 호출하여 실시간 은행 필터링 수행
+     │   │
+     │   ├─ AccountInput.jsx
+     │   │   # 입력된 계좌번호를 시각화 (하이픈 자동 삽입 등)
+     │   │
+     │   ├─ BankButtonList.jsx
+     │   │   # 탐지된 상위 3개 추천 은행을 버튼 형태로 렌더링
+     │   │
+     │   └─ CustomKeypad.jsx
+     │       # 3x4 커스텀 숫자 입력기 및 입력 로직 제어
+     │
+     └─ utils/bankMatcher/ (Detection Logic) 
+         │  # UI와 분리된 순수 비즈니스 로직
          │
-         ├─ AccountInput.jsx
-         │   # 입력된 계좌번호를 표시
+         ├─ detectorClass.js
+         │   # 금융결제원 표준 기반 은행 판별 알고리즘 
          │
-         ├─ BankButtonList.jsx
-         │   # 필터링된 추천 은행(최대 3개)을 보여주기
+         ├─ bankData.js
+         │   # 6대 시중은행의 실계좌/가상계좌 과목코드 데이터
          │
-         └─ CustomKeypad.jsx
-             # 3x4 숫자 입력기
+         └─ index.js
+             # 로직과 데이터를 통합하여 외부로 연결하는 인터페이스
+
 ```
 
 <br>
