@@ -213,6 +213,73 @@ const handleDeleteClick = () => {
 
 ---
 
+## Detection Logic
+
+금융결제원(KFTC) 표준안을 기반으로 한 Score-based Index Matching 알고리즘을 통해 계좌번호의 소속 은행을 판별
+
+
+## detectorClass.js
+
+### 점수 기반 가중치 시스템 (Scoring System)
+- 인덱스 매칭
+  -  각 은행별로 상이한 과목코드 위치(subStart)와 길이(subLen)를 전수 조사하여 데이터화
+- 자리수 일치
+   - 입력된 번호의 길이가 은행별 계좌 체계와 일치할 경우 기본 점수(0.5pt) 부여
+- 과목코드 일치
+  - 특정 위치의 숫자가 해당 은행의 유효 과목코드일 경우, 코드 길이에 비례한 가중치(2자리: 10pt, 3자리: 15pt) 부여
+
+```javascript
+
+// 핵심 스코어링 로직
+evaluate(accountNumber) {
+  let score = 0;
+  const cleanNumber = accountNumber.replace(/-/g, "");
+  const accountLen = cleanNumber.length;
+
+  const matchedRules = (this.accountRules || []).filter(rule => rule.length === accountLen);
+
+  if (matchedRules.length > 0) {
+    score += 0.5; // 자릿수 일치 기본 점수
+
+    matchedRules.forEach(rule => {
+      // 1. 문서에 명시된 위치(subStart)에서 과목코드 추출
+      const extractedCode = cleanNumber.substring(rule.subStart, rule.subStart + rule.subLen);
+
+      // 2. 해당 은행의 유효 과목코드 목록(subjects)과 대조
+      if (rule.subjects && rule.subjects.includes(extractedCode)) {
+        // 3. 코드 길이에 비례한 가중치 부여 (2자리면 10점, 3자리면 15점)
+        score += (rule.subLen * 5); 
+      }
+    });
+  }
+  return { bankName: this.bankName, score: score };
+}
+
+```
+
+
+## bankData.js
+
+- 우리, 신한, 국민, 하나, 농협, 기업은행 등 6대 시중은행의 실계좌 및 가상계좌 규칙을 선언적 데이터로 관리
+- 각 규칙은 계좌의 전체 길이, 과목코드의 시작점(`subStart`), 길이(`subLen`), 그리고 유효한 과목 코드 목록(`subjects`)을 포함
+- bankData.js 내의 규칙 배열을 추가하는 것만으로 새로운 은행이나 특수 계좌 체계를 즉시 추가할 수 있는 플러그인 구조
+
+```javascript
+// 국민은행 데이터 예시
+{
+  name: "국민은행",
+  rules: [
+    { length: 12, subStart: 4, subLen: 2, subjects: ["01", "05", "04", "21"] }, // 표준 체계
+    { length: 12, subStart: 3, subLen: 2, subjects: ["06", "18"] },             // 구 주택 체계
+    { length: 14, subStart: 4, subLen: 2, subjects: ["92", "90"] },             // 가상계좌 체계
+  ]
+}
+```
+
+<br>
+
+---
+
 ## 버전 관리
 
 ### v0.0.0: 초기 구현 단계
