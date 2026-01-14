@@ -20,11 +20,16 @@ const BankFinder = () => {
 
   // 3. 이벤트 핸들러
   const handleInputChange = (value) => setAccount(value);
-  const handleKeyPress = (num) => setAccount((prev) => {
+  const handleKeyPress = (num) => {
+    setAccount((prev) => {
     if((prev+num).length > 16) return prev;
     return prev + num;
-  });
-  const handleDelete = () => setAccount((prev) => prev.slice(0, -1));
+    });
+  };
+  const handleDelete = () => {
+    setSelectedBank(null);
+    setAccount((prev) => prev.slice(0, -1));
+  }
   const handleSelectBank = (bank) => {setSelectedBank(bank);};
   
   return (
