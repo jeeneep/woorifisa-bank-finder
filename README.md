@@ -145,7 +145,36 @@ useEffect(() => {
 ---
 
 ## CustomKeypad.jsx
+#### 숫자 입력 이벤트 위임
+- 숫자(0~9) 버튼 클릭 시 부모로 입력 값을 전달
 
+```javascript
+const handleDigitClick = (digit) => {
+  onInput(String(digit));
+};
+```
+
+#### 삭제 이벤트 위임
+- 삭제(⌫) 버튼 클릭 시 부모로 삭제 요청 전달
+
+```javascript
+const handleDeleteClick = () => {
+  onDelete();
+};
+```
+
+#### 버튼 렌더링 방식
+- 1~9는 map으로 반복 렌더링
+- 0/삭제는 하단에 별도 배치(키패드 레이아웃 유지)
+
+```javascript
+{[1,2,3,4,5,6,7,8,9].map(n => (
+  <button key={n} onClick={() => handleDigitClick(n)}>{n}</button>
+))}
+<button onClick={() => handleDigitClick(0)}>0</button>
+<button onClick={handleDeleteClick}>⌫</button>
+};
+```
 <br>
 
 ---
