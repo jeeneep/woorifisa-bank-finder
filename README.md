@@ -30,7 +30,7 @@ main.jsx (Entry Point & Style Injection)
      │   │  # 핵심 역할: 유틸 로직(detectAccountNumber)을 호출하여 실시간 은행 필터링 수행
      │   │
      │   ├─ AccountInput.jsx
-     │   │   # 입력된 계좌번호를 시각화 (하이픈 자동 삽입 등)
+     │   │   # 입력된 계좌번호를 시각화
      │   │
      │   ├─ BankButtonList.jsx
      │   │   # 탐지된 상위 3개 추천 은행을 버튼 형태로 렌더링
