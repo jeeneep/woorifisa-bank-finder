@@ -51,6 +51,7 @@ const BankFinder = () => {
         <BankButtonList 
           banks={matchedBanks} 
           onSelect={handleSelectBank}
+          selectedBankName={selectedBank?.bankName}
         />
 
         {/* 키패드 */}
