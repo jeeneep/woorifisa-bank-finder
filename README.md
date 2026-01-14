@@ -139,6 +139,40 @@ useEffect(() => {
 ---
 
 ## BankButtonList.jsx
+#### 렌더링 조건
+- 추천 은행 목록(banks)이 없거나 비어있으면 컴포넌트를 숨김
+
+```javascript
+if (!banks || banks.length === 0) return null;
+```
+
+#### 은행 선택 이벤트 위임
+- 은행 버튼 클릭 시 선택된 은행 객체를 부모로 전달(`onSelect(bank)`)
+
+```javascript
+onClick={() => {
+  if (typeof onSelect === "function") onSelect(bank);
+}}
+```
+
+#### 선택 상태 표시
+- `selectedBankName`과 은행명이 같으면 선택 스타일(`is-selected`) 적용
+
+```javascript
+const isSelected = bank.bankName === selectedBankName;
+className={`BankButtonList_item ${isSelected ? "is-selected" : ""}`}
+```
+
+#### 리스트 렌더링 방식
+- `banks.map()`으로 버튼 리스트 생성
+
+```javascript
+{banks.map((bank) => (
+  <button key={bank.representativeCode || bank.bankName}>
+    {bank.bankName}
+  </button>
+))}
+```
 
 <br>
 
