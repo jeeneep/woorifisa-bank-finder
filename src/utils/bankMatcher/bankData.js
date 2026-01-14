@@ -5,9 +5,9 @@ export const BANK_PLUGINS_DATA = [
     subjects: ["006", "05", "01", "007", "15", "10", "002", "004", "08", "18", "92", "09"],
     rules: [
       { length: 13, subStart: 1, subLen: 3 }, // 단축코드(1)-과목(3)
-      { length: 14, subStart: 10, subLen: 2 }, // 점(3)-고객(6)-검증(1)-과목(2)
-      { length: 11, subStart: 3, subLen: 3 }, // 점(3)-과목(3)
-      { length: 12, subStart: 5, subLen: 2 }  // 점(3)-고객(2)-과목(2)
+      { length: 14, subStart: 9, subLen: 2 }, // 점(3)-고객(6)-과목(2)
+      { length: 11, subStart: 3, subLen: 2 }, // 점(3)-과목(2)
+      { length: 12, subStart: 3, subLen: 2 }  // 점(3)-고객(2)-과목(2)
     ]
   },
   {
@@ -41,7 +41,7 @@ export const BANK_PLUGINS_DATA = [
     ]
   },
   {
-    name: "농협",
+    name: "농협은행",
     codes: ["011", "012"],
     subjects: ["301", "302", "312", "306", "305", "01", "02", "12", "51", "52", "56", "790", "791", "792"],
     rules: [
