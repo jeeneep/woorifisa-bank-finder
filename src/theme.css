@@ -57,13 +57,25 @@
     color: var(--ak-text-main);
     letter-spacing: -0.5px;
   }
-  
-  /* 커서 색상 및 애니메이션 */
-  .AccountInput_cursor {
-    background-color: var(--ak-primary);
-    animation: blink 1s infinite;
+
+  .AccountInput_field {
+    border: none;           
+    background: transparent;
+    outline: none;          
+    
+    font-size: inherit;     
+    font-weight: inherit;
+    color: inherit;
+    
+    text-align: center;     
+    width: 100%;            
+    padding: 0;
   }
-  @keyframes blink { 50% { opacity: 0; } }
+  
+  .AccountInput_field::placeholder {
+    color: var(--ak-border);
+    font-weight: 400;
+  }
   
   /* 은행 리스트 꾸미기 */
   .BankButtonList_container {
