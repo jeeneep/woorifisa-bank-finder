@@ -1,3 +1,6 @@
+const range = (start, end) => 
+  Array.from({ length: end - start + 1 }, (_, i) => String(start + i));
+
 export const BANK_PLUGINS_DATA = [
   {
     name: "우리은행",
