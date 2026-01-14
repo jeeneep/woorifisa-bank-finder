@@ -1,7 +1,6 @@
 import React from 'react';
 
-const BankButtonList = (props) => {
-    const { banks = [], onSelect, selectedBankName } = props;
+const BankButtonList = ({ banks = [], onSelect, selectedBankName }) => {
 
     // 추천 은행이 없을 경우 아예 안 보여줌 (빈 화면)
     if (!banks || banks.length === 0) return null;
