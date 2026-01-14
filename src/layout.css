@@ -1,0 +1,120 @@
+/* =========================================================
+   [필수] 구조 및 배치 (Layout)
+   : 이 파일이 없으면 키패드가 깨지고 화면 구성이 무너집니다.
+   ========================================================= */
+
+/* 1. 전역 리셋 및 레이아웃 설정 */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    -webkit-tap-highlight-color: transparent;
+  }
+  
+  body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+  }
+  
+  #root {
+    width: 100%;
+    max-width: 480px; /* 모바일 너비 제한 */
+    height: 100vh;
+    position: relative;
+  }
+  
+  /* 2. BankFinder (메인 컨테이너) */
+  .BankFinder_container {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    overflow: hidden;
+  }
+  
+  .BankFinder_navbar {
+    height: 56px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* 상단 안전 영역 대응 */
+    margin-top: env(safe-area-inset-top);
+  }
+  
+  .BankFinder_content {
+    flex: 1; /* 남은 공간 모두 차지 */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  
+  .BankFinder_footer {
+    /* 하단 안전 영역 대응 */
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+  
+  /* 3. AccountInput (계좌 입력창) */
+  .AccountInput_container {
+    text-align: center;
+    width: 100%;
+  }
+  
+  .AccountInput_display {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .AccountInput_cursor {
+    display: inline-block;
+    width: 3px;
+    height: 40px; /* 커서 높이는 구조로 봄 */
+    margin-left: 4px;
+  }
+  
+  /* 4. BankButtonList (은행 리스트) */
+  .BankButtonList_container {
+    padding: 12px 0 20px 0;
+  }
+  
+  .BankButtonList_scroll {
+    display: flex;
+    gap: 12px;
+    overflow-x: auto; /* 가로 스크롤 필수 */
+    padding: 0 20px;
+    /* 스크롤바 숨기기 */
+    scrollbar-width: none;
+  }
+  .BankButtonList_scroll::-webkit-scrollbar { display: none; }
+  
+  .BankButtonList_item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0; /* 찌그러짐 방지 */
+    min-width: 72px;
+    height: 72px;
+    cursor: pointer;
+  }
+  
+  /* 5. CustomKeypad (키패드) */
+  .CustomKeypad_grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* 3열 그리드 필수 */
+  }
+  
+  .CustomKeypad_button {
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+  }
+  
+  .CustomKeypad_empty {
+    pointer-events: none;
+  }
