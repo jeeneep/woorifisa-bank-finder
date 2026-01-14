@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
-const AccountInput = ({value, onChange}) => {
+const AccountInput = ({value, onChange, bankName}) => {
   const [localValue, setLocalValue] = useState(value); // 입력값 반응
 
   // 계좌번호 입력 변경값 동기화를 위한 로직
@@ -27,7 +27,13 @@ const AccountInput = ({value, onChange}) => {
     <div className="AccountInput_container">
 
       {/* 라벨 (글씨 담당) */}
-      <p className="AccountInput_label">보낼 계좌번호</p>
+      <p className="AccountInput_label">
+      {bankName ? 
+      <>
+      <span className="AccountInput_bankLogo BankIcon" data-bank={bankName}/>
+      <span>{bankName}</span>
+      </> : "보낼 계좌번호"}
+      </p>
 
       {/* 입력창 영역 */}
       <div className="AccountInput_display">

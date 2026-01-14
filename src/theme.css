@@ -49,6 +49,11 @@
     color: var(--ak-text-sub);
     font-size: 16px;
     margin-bottom: 12px;
+
+    display: flex;        
+    align-items: center; 
+    justify-content: center; 
+    gap: 8px;             
   }
   
   .AccountInput_display {
@@ -75,6 +80,12 @@
   .AccountInput_field::placeholder {
     color: var(--ak-border);
     font-weight: 400;
+  }
+
+  .AccountInput_bankLogo {
+  width: 20px;
+  height: 20px;
+  display: block;
   }
   
   /* 은행 리스트 꾸미기 */
@@ -107,19 +118,21 @@
     height: 32px;
     background-color: var(--ak-bg-sub);
     border-radius: 50%;
-    color: var(--ak-text-sub);
-    font-size: 14px;
-    font-weight: bold;
-    display: flex;
-    justify-content: center;
-    align-items: center;
     margin-bottom: 6px;
   }
-  
-  .BankButtonList_item.highlight .BankButtonList_icon {
-    background-color: #ffffff;
-    color: var(--ak-primary);
+
+  .BankIcon {
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
   }
+
+  .BankIcon[data-bank="우리은행"] {background-image: url("/icons/WR_Bank.png");}
+  .BankIcon[data-bank="신한은행"] {background-image: url("/icons/SH_Bank.png");}
+  .BankIcon[data-bank="국민은행"] {background-image: url("/icons/KB_Bank.png");}
+  .BankIcon[data-bank="기업은행"] {background-image: url("/icons/IBK_Bank.png");}
+  .BankIcon[data-bank="농협은행"] {background-image: url("/icons/NH_Bank.png");}
+  .BankIcon[data-bank="하나은행"] {background-image: url("/icons/HN_Bank.png");}
   
   .BankButtonList_name {
     font-size: 12px;
