@@ -1,0 +1,131 @@
+/* =========================================================
+   [선택] 디자인 테마 (Skin)
+   : 이 파일을 import 하면 기본 UI가 예쁘게 적용됩니다.
+   ========================================================= */
+
+/* 1. 디자인 토큰 정의 */
+:root {
+    --ak-primary: #3182f6;       
+    --ak-primary-light: #e8f3ff; 
+    --ak-text-main: #191f28;     
+    --ak-text-sub: #8b95a1;      
+    --ak-text-white: #ffffff;
+    --ak-bg-main: #ffffff;       
+    --ak-bg-sub: #f2f4f6;        
+    --ak-border: #e5e8eb;        
+    --ak-radius: 16px;
+  }
+  
+  /* 2. 전역 스타일링 */
+  * {
+    font-family: -apple-system, BlinkMacSystemFont, "San Francisco", "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
+  }
+  
+  body {
+    background-color: #e9ecef; /* PC 배경색 */
+  }
+  
+  #root {
+    background-color: var(--ak-bg-main);
+    box-shadow: 0 0 20px rgba(0,0,0,0.05);
+  }
+  
+  /* 3. 컴포넌트별 디자인 */
+  
+  /* 네비게이션 */
+  .BankFinder_navTitle {
+    font-size: 17px;
+    font-weight: 600;
+    color: var(--ak-text-main);
+  }
+  
+  /* 하단 영역 배경 */
+  .BankFinder_footer {
+    background-color: var(--ak-bg-main);
+  }
+  
+  /* 입력창 꾸미기 */
+  .AccountInput_label {
+    color: var(--ak-text-sub);
+    font-size: 16px;
+    margin-bottom: 12px;
+  }
+  
+  .AccountInput_display {
+    font-size: 40px;
+    font-weight: 700;
+    color: var(--ak-text-main);
+    letter-spacing: -0.5px;
+  }
+  
+  /* 커서 색상 및 애니메이션 */
+  .AccountInput_cursor {
+    background-color: var(--ak-primary);
+    animation: blink 1s infinite;
+  }
+  @keyframes blink { 50% { opacity: 0; } }
+  
+  /* 은행 리스트 꾸미기 */
+  .BankButtonList_container {
+    border-top: 1px solid var(--ak-bg-sub);
+  }
+  
+  .BankButtonList_label {
+    font-size: 13px;
+    color: var(--ak-text-sub);
+    margin-bottom: 12px;
+    padding-left: 20px;
+  }
+  
+  .BankButtonList_item {
+    border: 1px solid var(--ak-border);
+    border-radius: var(--ak-radius);
+    background-color: var(--ak-bg-main);
+    transition: all 0.2s;
+  }
+  
+  .BankButtonList_item:active {
+    transform: scale(0.95);
+    background-color: var(--ak-bg-sub);
+  }
+  
+  /* 아이콘 꾸미기 */
+  .BankButtonList_icon {
+    width: 32px;
+    height: 32px;
+    background-color: var(--ak-bg-sub);
+    border-radius: 50%;
+    color: var(--ak-text-sub);
+    font-size: 14px;
+    font-weight: bold;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 6px;
+  }
+  
+  .BankButtonList_item.highlight .BankButtonList_icon {
+    background-color: #ffffff;
+    color: var(--ak-primary);
+  }
+  
+  .BankButtonList_name {
+    font-size: 12px;
+    color: var(--ak-text-main);
+    font-weight: 500;
+  }
+  
+  /* 키패드 꾸미기 */
+  .CustomKeypad_grid {
+    background-color: var(--ak-bg-sub);
+  }
+  
+  .CustomKeypad_button {
+    font-size: 24px;
+    font-weight: 500;
+    color: var(--ak-text-main);
+  }
+  
+  .CustomKeypad_button:active {
+    background-color: rgba(0,0,0,0.05);
+  }
