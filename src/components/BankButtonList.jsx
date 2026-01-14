@@ -1,7 +1,7 @@
 import React from 'react';
 
 const BankButtonList = (props) => {
-    const { banks = [], onSelect } = props;
+    const { banks = [], onSelect, selectedBankName } = props;
 
     // 추천 은행이 없을 경우 아예 안 보여줌 (빈 화면)
     if (!banks || banks.length === 0) return null;
@@ -16,11 +16,13 @@ const BankButtonList = (props) => {
             <div className="BankButtonList_scroll">
                 
                 {banks.map((bank) => {
+                    const isSelected = bank.bankName === selectedBankName;
+
                     return (
                         <button
                             key={bank.representativeCode || bank.bankName}
                             type="button"
-                            className="BankButtonList_item"
+                            className={`BankButtonList_item ${isSelected ? "is-selected" : ""}`}
                             onClick={() => {
                                 if (typeof onSelect === "function") onSelect(bank);
                             }}
