@@ -1,6 +1,16 @@
 # woorifisa-bank-finder
 
-<br>
+
+### 설치 방법
+
+```bash
+npm install korean-bank-finder
+```
+
+### 배포 정보
+- **npm 패키지명**: `korean-bank-finder`
+- **배포 링크**: [korean-bank-finder](https://www.npmjs.com/package/korean-bank-finder)
+
 
 ## 개요
 
@@ -80,6 +90,34 @@ createRoot(document.getElementById('root')).render(
 ---
 
 ## AccountInput.jsx
+#### 계좌번호 입력 변경값 동기화
+- 상위 컴포넌트에서 전달된 `value`가 변경될 때마다 로컬 상태(`localValue`)를 동기화
+- 외부 입력(키패드, 초기값 변경 등)과 내부 입력 상태 간 불일치 방지
+```javascript
+  useEffect(() => {
+      const limitedValue = value.slice(0, 16);
+      setLocalValue(limitedValue);
+    }, [value]);
+```
+
+#### 입력 변경 지연 처리
+- `localValue`가 변경될 때마다 `useEffect`가 실행되어 타이머를 설정
+- 일정 시간(2초) 동안 추가 입력이 없을 경우에만 콜백 로직을 수행하도록 구성
+- `localValue`와 외부에서 전달된 `value`가 다를 때만 `onChange(localValue)`를 호출하여 불필요한 상태 업데이트를 방지
+- 새로운 입력이 발생하면 이전 타이머를 `clearTimeout`으로 제거하여 마지막 입력만 반영되도록 처리
+
+```javascript
+useEffect(() => {
+	const timer = setTimeout(() => {
+	if(localValue != value) {
+		onChange(localValue);
+		}
+	}, 2000); // 2초 딜레이
+
+	return () => clearTimeout(timer);
+}, [localValue, onChange, value]);
+
+```
 
 <br>
 
@@ -97,12 +135,35 @@ createRoot(document.getElementById('root')).render(
 
 ---
 
+## 버전 관리
+
+### v0.0.0: 초기 구현 단계
+
+#### 중점 사항
+- 키패드 입력 및 삭제 기능 구현
+- 계좌번호(`account`) 업데이트 흐름 구성
+
+### v0.0.1: 입력 로직 정리 및 추천 은행 UI 추가
+
+#### 중점 사항
+- 입력/삭제 핸들러의 책임을 account 상태 변경 중심으로 단순화
+- 입력값을 기반으로 추천 은행을 표시하는 UI(`BankButtonList`) 연동
+
+### v0.0.2: 삭제 동작 개선 및 은행 매칭 로직 분리
+
+#### 중점 사항
+- 계좌번호 변경 시 은행 매칭을 `useEffect`에서 처리하도록 분리
+- 삭제 시 선택된 은행명(`selectedBank`)을 초기화하여 UI 일관성 강화
+
+---
+
 ## 개선할 요소 
 
 <br>
 
 **테스트**
 - 단위 테스트 수행
+
 
 **Atomic Design 패턴**
 - 현재: `BankButtonList.jsx` 컴포넌트 속에서 `map`을 돌리면서 버튼 UI(`html`)를 직접 그림 <br>
