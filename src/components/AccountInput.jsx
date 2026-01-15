@@ -5,7 +5,7 @@ const AccountInput = ({value, onChange, bankName}) => {
 
   // 계좌번호 입력 변경값 동기화를 위한 로직
   useEffect(() => {
-      const limitedValue = value.slice(0, 16);
+      const limitedValue = value.slice(0, 14);
       setLocalValue(limitedValue);
     }, [value]);
 
