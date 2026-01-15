@@ -14,6 +14,22 @@ npm install korean-bank-finder
 
 <br>
 
+### 서비스 소개
+
+**"계좌번호만 입력하세요, 은행은 저희가 찾을게요."**
+
+- 번거롭게 목록에서 은행을 찾을 필요 없이, 계좌번호 입력 즉시 가장 적합한 은행을 제안하여 송금 및 등록 프로세스를 단축합니다.
+
+<div align="center">
+  <img src="https://github.com/user-attachments/assets/821ad113-3ada-44e7-aad4-9b4afab21eb5" width="33%" height="600" alt="입력 전" />
+  <img src="https://github.com/user-attachments/assets/2650eec8-bbda-4ebb-b247-1d6e5293ec35" width="33%" height="535" alt="추천" />
+  <img src="https://github.com/user-attachments/assets/a64f80e5-9355-4ff7-a6b0-80f0cead78c5" width="33%" height="600" alt="선택 완료" />
+</div>
+
+
+
+<br>
+
 ### 컴포넌트 구조
 
 ```YAML
@@ -53,7 +69,7 @@ main.jsx (Entry Point & Style Injection)
 ```
 
 <br>
-
+c
 
 ## BankFinder.jsx
 
