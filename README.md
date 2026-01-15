@@ -1,5 +1,18 @@
 # woorifisa-bank-finder
 
+<br>
+
+### "계좌번호만 입력하세요, 은행은 저희가 찾을게요."
+
+- 번거롭게 목록에서 은행을 찾을 필요 없이, 계좌번호 입력 즉시 가장 적합한 은행을 제안하여 송금 및 등록 프로세스를 단축합니다.
+
+<div align="center">
+  <img src="https://github.com/user-attachments/assets/821ad113-3ada-44e7-aad4-9b4afab21eb5" width="33%" height="600" alt="입력 전" />
+  <img src="https://github.com/user-attachments/assets/2650eec8-bbda-4ebb-b247-1d6e5293ec35" width="33%" height="535" alt="추천" />
+  <img src="https://github.com/user-attachments/assets/a64f80e5-9355-4ff7-a6b0-80f0cead78c5" width="33%" height="600" alt="선택 완료" />
+</div>
+
+<br>
 
 ### 설치 방법
 
@@ -10,23 +23,6 @@ npm install korean-bank-finder
 ### 배포 정보
 - **npm 패키지명**: `korean-bank-finder`
 - **배포 링크**: [korean-bank-finder](https://www.npmjs.com/package/korean-bank-finder)
-
-
-<br>
-
-### 서비스 소개
-
-**"계좌번호만 입력하세요, 은행은 저희가 찾을게요."**
-
-- 번거롭게 목록에서 은행을 찾을 필요 없이, 계좌번호 입력 즉시 가장 적합한 은행을 제안하여 송금 및 등록 프로세스를 단축합니다.
-
-<div align="center">
-  <img src="https://github.com/user-attachments/assets/821ad113-3ada-44e7-aad4-9b4afab21eb5" width="33%" height="600" alt="입력 전" />
-  <img src="https://github.com/user-attachments/assets/2650eec8-bbda-4ebb-b247-1d6e5293ec35" width="33%" height="535" alt="추천" />
-  <img src="https://github.com/user-attachments/assets/a64f80e5-9355-4ff7-a6b0-80f0cead78c5" width="33%" height="600" alt="선택 완료" />
-</div>
-
-
 
 <br>
 
@@ -69,79 +65,35 @@ main.jsx (Entry Point & Style Injection)
 ```
 
 <br>
-c
 
-## BankFinder.jsx
+## BankFinder
 
 #### 중앙 집중형 상태 관리
 - 앱의 핵심 데이터를 BankFinder 한 곳에서 통합 관리
 - 하위 UI 컴포넌트는 스스로 상태를 갖지 않고, 부모로부터 props를 통해 데이터와 수정 함수 전달 받기
 
-```javascript
-// 상태(State)는 컨테이너가 소유
-const [account, setAccount] = useState('');
-const [matchedBanks, setMatchedBanks] = useState([]);
-
-return (
-  	// UI 컴포넌트에는 데이터(props)와 로직(handler)만 주입
-    <BankButtonList banks={matchedBanks} onSelect={handleSelectBank} />
-    <CustomKeypad onInput={handleKeyPress} onDelete={handleDelete} />
-);
-
-```
+<br>
 
 #### 비즈니스 로직 통합 및 제어
 - `useEffect`를 통해 `account` 상태 변경을 감지하고, `detectAccountNumber` 유틸리티를 호출하여 실시간 은행 매칭 수행
 - 입력값 길이 제한(16자) 및 삭제 시 선택된 은행 초기화 등의 로직을 수행하여 잘못된 데이터가 UI로 전파되는 것을 차단
 
-```javascript
-// 로직 1. 계좌번호 변경 시 은행 매칭 수행
-useEffect(() => {
-  const results = detectAccountNumber(account);
-  setMatchedBanks(results);
-}, [account]);
-
-// 로직 2. 입력값 유효성 검사 및 상태 방어
-const handleKeyPress = (num) => {
-  setAccount((prev) => {
-    if ((prev + num).length > 16) return prev; // 길이 제한
-    return prev + num;
-  });
-};
-
-```
 
 <br>
 
-## AccountInput.jsx
+## AccountInput
+
 #### 계좌번호 입력 변경값 동기화
 - 상위 컴포넌트에서 전달된 `value`가 변경될 때마다 로컬 상태(`localValue`)를 동기화
 - 외부 입력(키패드, 초기값 변경 등)과 내부 입력 상태 간 불일치 방지
-```javascript
-  useEffect(() => {
-      const limitedValue = value.slice(0, 16);
-      setLocalValue(limitedValue);
-    }, [value]);
-```
+
+<br>
 
 #### 입력 변경 지연 처리
 - `localValue`가 변경될 때마다 `useEffect`가 실행되어 타이머를 설정
 - 일정 시간(2초) 동안 추가 입력이 없을 경우에만 콜백 로직을 수행하도록 구성
 - `localValue`와 외부에서 전달된 `value`가 다를 때만 `onChange(localValue)`를 호출하여 불필요한 상태 업데이트를 방지
 - 새로운 입력이 발생하면 이전 타이머를 `clearTimeout`으로 제거하여 마지막 입력만 반영되도록 처리
-
-```javascript
-useEffect(() => {
-	const timer = setTimeout(() => {
-	if(localValue != value) {
-		onChange(localValue);
-		}
-	}, 2000); // 2초 딜레이
-
-	return () => clearTimeout(timer);
-}, [localValue, onChange, value]);
-
-```
 
 <br>
 
@@ -150,33 +102,18 @@ useEffect(() => {
 #### 은행 선택 이벤트 위임
 - 은행 버튼 클릭 시 선택된 은행 객체를 부모로 전달(`onSelect(bank)`)
 
-```javascript
-onClick={() => {
-  if (typeof onSelect === "function") onSelect(bank);
-}}
-```
+<br>
 
 #### 리스트 렌더링 방식
 - `banks.map()`으로 버튼 리스트 생성
 
-```javascript
-{banks.map((bank) => (
-  <button key={bank.representativeCode || bank.bankName}>
-    {bank.bankName}
-  </button>
-))}
-```
-
 <br>
 
-## Detection Logic
+## detectorClass
 
 금융결제원(KFTC) 표준안을 기반으로 한 Score-based Index Matching 알고리즘을 통해 계좌번호의 소속 은행을 판별
 
-
-## detectorClass.js
-
-### 점수 기반 가중치 시스템 (Scoring System)
+#### 점수 기반 가중치 시스템 (Scoring System)
 - 인덱스 매칭
   -  각 은행별로 상이한 과목코드 위치(subStart)와 길이(subLen)를 전수 조사하여 데이터화
 - 자리수 일치
@@ -184,37 +121,8 @@ onClick={() => {
 - 과목코드 일치
   - 특정 위치의 숫자가 해당 은행의 유효 과목코드일 경우, 코드 길이에 비례한 가중치(2자리: 10pt, 3자리: 15pt) 부여
 
-```javascript
 
-// 핵심 스코어링 로직
-evaluate(accountNumber) {
-  let score = 0;
-  const cleanNumber = accountNumber.replace(/-/g, "");
-  const accountLen = cleanNumber.length;
-
-  const matchedRules = (this.accountRules || []).filter(rule => rule.length === accountLen);
-
-  if (matchedRules.length > 0) {
-    score += 0.5; // 자릿수 일치 기본 점수
-
-    matchedRules.forEach(rule => {
-      // 1. 문서에 명시된 위치(subStart)에서 과목코드 추출
-      const extractedCode = cleanNumber.substring(rule.subStart, rule.subStart + rule.subLen);
-
-      // 2. 해당 은행의 유효 과목코드 목록(subjects)과 대조
-      if (rule.subjects && rule.subjects.includes(extractedCode)) {
-        // 3. 코드 길이에 비례한 가중치 부여 (2자리면 10점, 3자리면 15점)
-        score += (rule.subLen * 5); 
-      }
-    });
-  }
-  return { bankName: this.bankName, score: score };
-}
-
-```
-
-
-## bankData.js
+## bankData
 
 - 우리, 신한, 국민, 하나, 농협, 기업은행 등 6대 시중은행의 실계좌 및 가상계좌 규칙을 선언적 데이터로 관리
 - 각 규칙은 계좌의 전체 길이, 과목코드의 시작점(`subStart`), 길이(`subLen`), 그리고 유효한 과목 코드 목록(`subjects`)을 포함
@@ -236,38 +144,17 @@ evaluate(accountNumber) {
 
 ## 버전 관리
 
-### v0.0.0: 초기 구현 단계
+#### v0.0.0: 초기 구현 단계
 
-#### 중점 사항
 - 키패드 입력 및 삭제 기능 구현
 - 계좌번호(`account`) 업데이트 흐름 구성
 
-### v0.0.1: 입력 로직 정리 및 추천 은행 UI 추가
+#### v0.0.1: 입력 로직 정리 및 추천 은행 UI 추가
 
-#### 중점 사항
 - 입력/삭제 핸들러의 책임을 account 상태 변경 중심으로 단순화
 - 입력값을 기반으로 추천 은행을 표시하는 UI(`BankButtonList`) 연동
 
-### v0.0.2: 삭제 동작 개선 및 은행 매칭 로직 분리
+#### v0.0.2: 삭제 동작 개선 및 은행 매칭 로직 분리
 
-#### 중점 사항
 - 계좌번호 변경 시 은행 매칭을 `useEffect`에서 처리하도록 분리
 - 삭제 시 선택된 은행명(`selectedBank`)을 초기화하여 UI 일관성 강화
-
-<br>
-
-## 개선할 요소 
-
-**테스트**
-- 단위 테스트 수행
-
-**Atomic Design 패턴 도입**
-- **현황**
-  - `BankButtonList.jsx` 내부에서 리스트 순회(`map`)와 개별 버튼 UI 렌더링을 동시에 처리하여 결합도가 높음
-- **개선**
-  - **Atom 분리**: 개별 버튼의 UI만 담당하는 `BankItem.jsx` 컴포넌트 생성
-  - **역할 분리**: `BankButtonList.jsx`는 아이템의 배치(Layout)와 데이터 전달 역할에만 집중
-- **기대 효과**
-  - 컴포넌트 단위를 세분화하여 다른 기능(예: 즐겨찾기, 최근 송금 계좌)에서의 재사용성 확보
-
-
