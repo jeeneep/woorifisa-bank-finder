@@ -1,12 +1,7 @@
 import React, { useEffect, useState } from 'react';
 
-<<<<<<< Updated upstream
-const AccountInput = ({value, onChange, bankName}) => {
-  const [localValue, setLocalValue] = useState(value);
-=======
 const AccountInput = ({value, onChange, bankName, onClear}) => {
-  const [localValue, setLocalValue] = useState(value); // 입력값 반응
->>>>>>> Stashed changes
+  const [localValue, setLocalValue] = useState(value); 
 
   // 계좌번호 입력 변경값 동기화를 위한 로직
   useEffect(() => {
