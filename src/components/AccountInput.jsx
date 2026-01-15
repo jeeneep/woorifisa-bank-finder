@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 
 const AccountInput = ({value, onChange, bankName}) => {
-  const [localValue, setLocalValue] = useState(value); // 입력값 반응
+  const [localValue, setLocalValue] = useState(value);
 
   // 계좌번호 입력 변경값 동기화를 위한 로직
   useEffect(() => {
@@ -9,23 +9,22 @@ const AccountInput = ({value, onChange, bankName}) => {
       setLocalValue(limitedValue);
     }, [value]);
 
-  // 일정 시간 입력 없으면 부모에게 전달(변경값)
+  // 일정 시간 입력 없으면 부모에게 전달
   useEffect(() => {
       const timer = setTimeout(() => {
       if(localValue != value) {
         onChange(localValue);
       }
-    }, 2000); // 2초 딜레이
+    }, 2000);
 
     return () => clearTimeout(timer);
     }, [localValue, onChange, value]);
 
   const handleClear = () => {
-    setLocalValue(''); // 화면 지우기
-    onChange(''); // 부모 상태(BankFinder)도 즉시 지우기  
+    setLocalValue(''); 
+    onChange('');
   };
 
-  // useEffect의 정리 이펙트(딜레이값 전달을 위해 return 형식 변형)
   return (
     // 전체 컨테이너 (중앙 정렬)
     <div className="AccountInput_container">

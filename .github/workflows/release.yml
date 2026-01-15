@@ -1,8 +1,5 @@
 name: npm Publish
 
-# [핵심] push가 아니라 workflow_dispatch로 설정하면
-# 코드를 아무리 올려도 배포되지 않고, GitHub 웹사이트에서 버튼을 눌러야만 배포됩니다.
-# on: push: branchks: -main 으로 바꾸면 main 브랜치 push하면 바로 실행
 on:
   push:
     branches:
