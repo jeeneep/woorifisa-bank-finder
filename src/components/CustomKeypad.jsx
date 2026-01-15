@@ -5,7 +5,7 @@ import React from 'react'
  * - 숫자(0~9) 입력: onInput(num) 호출
  * - 삭제(백스페이스): onDelete() 호출
  */
-const CustomKeypad = ( { onInput, onDelete }  ) => {
+const CustomKeypad = ( { onInput, onDelete } ) => {
 
     // 숫자 눌렀을 때 실행되는 함수
     const handleDigitClick = (digit) => {
