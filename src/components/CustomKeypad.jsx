@@ -1,10 +1,3 @@
-import React from 'react'
-
-/**
- * CustomKeypad
- * - 숫자(0~9) 입력: onInput(num) 호출
- * - 삭제(백스페이스): onDelete() 호출
- */
 const CustomKeypad = ( { onInput, onDelete } ) => {
 
     // 숫자 눌렀을 때 실행되는 함수
@@ -31,10 +24,7 @@ const CustomKeypad = ( { onInput, onDelete } ) => {
             </button>
         ))}
 
-        {/* 왼쪽 하단: 빈 공간 (디자인 균형 맞추기용) */}
         <div className="CustomKeypad_empty"></div>
-
-        {/* 중앙 하단: 숫자 0 */}
         <button
             type="button"
             className="CustomKeypad_button"
@@ -42,7 +32,6 @@ const CustomKeypad = ( { onInput, onDelete } ) => {
         >
             0
         </button>
-
         <button 
             type="button" 
             className="CustomKeypad_button"

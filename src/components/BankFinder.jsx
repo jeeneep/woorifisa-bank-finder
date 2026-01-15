@@ -1,50 +1,53 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import AccountInput from './AccountInput';
 import BankButtonList from './BankButtonList';
 import CustomKeypad from './CustomKeypad';
 import { detectAccountNumber } from '../utils/bankMatcher';
 
 const BankFinder = () => {
-  // 1. 상태 정의
+
   const [account, setAccount] = useState('');      // 계좌번호
   const [matchedBanks, setMatchedBanks] = useState([]); // 매칭된 은행들
   const [selectedBank, setSelectedBank] = useState(null); // 선택된 은행
 
-  // 2. 로직 호출 (박지은: bankMatcher 로직 호출)
   useEffect(() => {
-    // 류경록 님이 Debounce 처리된 값을 주면 더 좋고,
-    // 여기서 직접 호출도 가능
     const results = detectAccountNumber(account);
     setMatchedBanks(results);
-  }, [account]); // account가 바뀔 때마다 실행
+  }, [account]); 
 
-  // 3. 이벤트 핸들러
+  // 입력창의 값이 변경될 때 계좌번호 상태를 업데이트 (동기화)
   const handleInputChange = (value) => setAccount(value);
+
+  // 키패드 숫자를 입력받아 뒤에 추가하며, 최대 14자리까지만 입력 허용
   const handleKeyPress = (num) => {
     setAccount((prev) => {
     if((prev+num).length > 14) return prev;
     return prev + num;
     });
   };
+
+  // 마지막 글자를 지우고, 번호가 변경되므로 선택된 은행 정보도 함께 초기화
   const handleDelete = () => {
     setSelectedBank(null);
     setAccount((prev) => prev.slice(0, -1));
   }
+
+  // 사용자가 리스트에서 특정 은행을 클릭했을 때 해당 은행을 선택 상태로 저장
   const handleSelectBank = (bank) => {setSelectedBank(bank);};
+
+  // '전체 삭제' 버튼 클릭 시 계좌번호와 선택된 은행 정보를 모두 초기화
   const handleClearAll = () => {
-    setAccount(''); // 화면 지우기
+    setAccount(''); 
     setSelectedBank(null);
   };
 
   return (
     <div className="BankFinder_container">
-
-      {/* 상단: 네비게이션 바 */}
       <nav className="BankFinder_navbar">
         <span className="BankFinder_navTitle">계좌 입력</span>
       </nav>
 
-      {/* 중앙: 입력창 (남은 공간 차지) */}
+      {/* 입력창 */}
       <main className="BankFinder_content">
         <AccountInput
           value={account}
@@ -54,16 +57,13 @@ const BankFinder = () => {
         />
       </main>
 
-      {/* 하단: 은행 리스트 + 키패드 (고정) */}
       <footer className="BankFinder_footer">
-
         {/* 은행 목록 */}
         <BankButtonList
           banks={matchedBanks}
           onSelect={handleSelectBank}
           selectedBankName={selectedBank?.bankName}
         />
-
         {/* 키패드 */}
         <CustomKeypad
           onInput={handleKeyPress}
