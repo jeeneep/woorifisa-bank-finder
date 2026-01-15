@@ -31,6 +31,10 @@ const BankFinder = () => {
     setAccount((prev) => prev.slice(0, -1));
   }
   const handleSelectBank = (bank) => {setSelectedBank(bank);};
+  const handleClearAll = () => {
+    setAccount(''); // 화면 지우기
+    setSelectedBank(null);
+  };
 
   return (
     <div className="BankFinder_container">
@@ -46,6 +50,7 @@ const BankFinder = () => {
           value={account}
           onChange={handleInputChange}
           bankName={selectedBank?.bankName || ""}
+          onClear={handleClearAll}
         />
       </main>
 

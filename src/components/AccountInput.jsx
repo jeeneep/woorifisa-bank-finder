@@ -1,7 +1,12 @@
 import React, { useEffect, useState } from 'react';
 
+<<<<<<< Updated upstream
 const AccountInput = ({value, onChange, bankName}) => {
   const [localValue, setLocalValue] = useState(value);
+=======
+const AccountInput = ({value, onChange, bankName, onClear}) => {
+  const [localValue, setLocalValue] = useState(value); // 입력값 반응
+>>>>>>> Stashed changes
 
   // 계좌번호 입력 변경값 동기화를 위한 로직
   useEffect(() => {
@@ -21,8 +26,13 @@ const AccountInput = ({value, onChange, bankName}) => {
     }, [localValue, onChange, value]);
 
   const handleClear = () => {
-    setLocalValue(''); 
-    onChange('');
+    setLocalValue(''); // 화면 지우기
+
+    if(onClear){
+      onClear();
+    } else{
+      onChange(''); // 부모 상태(BankFinder)도 즉시 지우기  
+    }
   };
 
   return (
