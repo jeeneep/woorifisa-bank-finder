@@ -25,6 +25,11 @@
            height="600" alt="선택 완료">
     </td>
   </tr>
+   <tr align="center">
+    <td>계좌 입력</td>
+    <td>은행 추천</td>
+    <td>은행 선택</td>
+   </tr>
 </table>
 
 <br>
