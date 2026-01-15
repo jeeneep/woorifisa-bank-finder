@@ -6,6 +6,10 @@
 
 - 번거롭게 목록에서 은행을 찾을 필요 없이, 계좌번호 입력 즉시 가장 적합한 은행을 제안하여 송금 및 등록 프로세스를 단축합니다.
 
+<br>
+
+
+
 <table align="center">
   <tr>
     <td>
@@ -30,6 +34,8 @@
 ```bash
 npm install korean-bank-finder
 ```
+
+<br>
 
 ### 배포 정보
 - **npm 패키지명**: `korean-bank-finder`
@@ -77,54 +83,13 @@ main.jsx (Entry Point & Style Injection)
 
 <br>
 
-## BankFinder
-
-#### 중앙 집중형 상태 관리
-- 앱의 핵심 데이터를 BankFinder 한 곳에서 통합 관리
-- 하위 UI 컴포넌트는 스스로 상태를 갖지 않고, 부모로부터 props를 통해 데이터와 수정 함수 전달 받기
-
-<br>
-
-#### 비즈니스 로직 통합 및 제어
-- `useEffect`를 통해 `account` 상태 변경을 감지하고, `detectAccountNumber` 유틸리티를 호출하여 실시간 은행 매칭 수행
-- 입력값 길이 제한(16자) 및 삭제 시 선택된 은행 초기화 등의 로직을 수행하여 잘못된 데이터가 UI로 전파되는 것을 차단
-
-
-<br>
-
-## AccountInput
-
-#### 계좌번호 입력 변경값 동기화
-- 상위 컴포넌트에서 전달된 `value`가 변경될 때마다 로컬 상태(`localValue`)를 동기화
-- 외부 입력(키패드, 초기값 변경 등)과 내부 입력 상태 간 불일치 방지
-
-<br>
-
-#### 입력 변경 지연 처리
-- `localValue`가 변경될 때마다 `useEffect`가 실행되어 타이머를 설정
-- 일정 시간(2초) 동안 추가 입력이 없을 경우에만 콜백 로직을 수행하도록 구성
-- `localValue`와 외부에서 전달된 `value`가 다를 때만 `onChange(localValue)`를 호출하여 불필요한 상태 업데이트를 방지
-- 새로운 입력이 발생하면 이전 타이머를 `clearTimeout`으로 제거하여 마지막 입력만 반영되도록 처리
-
-<br>
-
-## BankButtonList.jsx
-
-#### 은행 선택 이벤트 위임
-- 은행 버튼 클릭 시 선택된 은행 객체를 부모로 전달(`onSelect(bank)`)
-
-<br>
-
-#### 리스트 렌더링 방식
-- `banks.map()`으로 버튼 리스트 생성
-
-<br>
-
-## detectorClass
+### Detection Logic
 
 금융결제원(KFTC) 표준안을 기반으로 한 Score-based Index Matching 알고리즘을 통해 계좌번호의 소속 은행을 판별
 
-#### 점수 기반 가중치 시스템 (Scoring System)
+#### detectorClass.js
+
+점수 기반 가중치 시스템 (Scoring System)
 - 인덱스 매칭
   -  각 은행별로 상이한 과목코드 위치(subStart)와 길이(subLen)를 전수 조사하여 데이터화
 - 자리수 일치
@@ -132,8 +97,9 @@ main.jsx (Entry Point & Style Injection)
 - 과목코드 일치
   - 특정 위치의 숫자가 해당 은행의 유효 과목코드일 경우, 코드 길이에 비례한 가중치(2자리: 10pt, 3자리: 15pt) 부여
 
+<br>
 
-## bankData
+#### bankData.js
 
 - 우리, 신한, 국민, 하나, 농협, 기업은행 등 6대 시중은행의 실계좌 및 가상계좌 규칙을 선언적 데이터로 관리
 - 각 규칙은 계좌의 전체 길이, 과목코드의 시작점(`subStart`), 길이(`subLen`), 그리고 유효한 과목 코드 목록(`subjects`)을 포함
@@ -153,7 +119,7 @@ main.jsx (Entry Point & Style Injection)
 
 <br>
 
-## 버전 관리
+### 버전 관리
 
 #### v0.0.0: 초기 구현 단계
 
