@@ -54,52 +54,6 @@ main.jsx (Entry Point & Style Injection)
 
 <br>
 
-## 주요 UI 작업
-
-<br>
-
-<img width="300" height="400" alt="스크린샷 2026-01-14 20 32 59" src="https://github.com/user-attachments/assets/30021906-04ee-4eda-ae39-2ba11df0ad80" />
-<img width="250" height="400" alt="스크린샷 2026-01-14 20 32 40" src="https://github.com/user-attachments/assets/fe001261-bdca-4e62-a5e8-5238c15dd2ff" />
-<img width="265" height="400" alt="스크린샷 2026-01-14 20 31 43" src="https://github.com/user-attachments/assets/7fc100ec-e427-46e0-ae1c-8f4b16acad29" />
-
-
-<br>
-<br>
-
-```JS
-// main.jsx
-import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
-import App from './App.jsx'
-
-// 1. 필수 레이아웃
-import './layout.css' 
-
-// 2. 테마 (사용자에 맞게 커스텀 가능)
-import './theme.css'
-
-createRoot(document.getElementById('root')).render(
-  <StrictMode>
-    <App />
-  </StrictMode>
-
-)
-```
-
-
-#### Headless 기반 UI
-
-- 디자인과 기능을 분리하여 확장성 제공(CSS 커스터마이징)
-	
-- **Logic** (JS): 상태 관리, 유효성 검사, 데이터 매핑 담당.
-- **Structure** (`layout.css`): 기능 동작에 필수적인 배치만 정의.
-- **Skin** (`theme.css`): 색상, 폰트, 라운딩 등 커스텀 디자인 요소 분리.
-	
--  단점
-	- 러닝커브: 커스텀하기 위해 해당 프로젝트 내 CSS 가 적용되는 구조를 파악해야 함
-
-<br>
-
 
 ## BankFinder.jsx
 
@@ -176,12 +130,6 @@ useEffect(() => {
 <br>
 
 ## BankButtonList.jsx
-#### 렌더링 조건
-- 추천 은행 목록(banks)이 없거나 비어있으면 컴포넌트를 숨김
-
-```javascript
-if (!banks || banks.length === 0) return null;
-```
 
 #### 은행 선택 이벤트 위임
 - 은행 버튼 클릭 시 선택된 은행 객체를 부모로 전달(`onSelect(bank)`)
@@ -190,14 +138,6 @@ if (!banks || banks.length === 0) return null;
 onClick={() => {
   if (typeof onSelect === "function") onSelect(bank);
 }}
-```
-
-#### 선택 상태 표시
-- `selectedBankName`과 은행명이 같으면 선택 스타일(`is-selected`) 적용
-
-```javascript
-const isSelected = bank.bankName === selectedBankName;
-className={`BankButtonList_item ${isSelected ? "is-selected" : ""}`}
 ```
 
 #### 리스트 렌더링 방식
@@ -209,40 +149,6 @@ className={`BankButtonList_item ${isSelected ? "is-selected" : ""}`}
     {bank.bankName}
   </button>
 ))}
-```
-
-<br>
-
-## CustomKeypad.jsx
-#### 숫자 입력 이벤트 위임
-- 숫자(0~9) 버튼 클릭 시 부모로 입력 값을 전달
-
-```javascript
-const handleDigitClick = (digit) => {
-  onInput(String(digit));
-};
-```
-
-#### 삭제 이벤트 위임
-- 삭제(⌫) 버튼 클릭 시 부모로 삭제 요청 전달
-
-```javascript
-const handleDeleteClick = () => {
-  onDelete();
-};
-```
-
-#### 버튼 렌더링 방식
-- 1~9는 map으로 반복 렌더링
-- 0/삭제는 하단에 별도 배치(키패드 레이아웃 유지)
-
-```javascript
-{[1,2,3,4,5,6,7,8,9].map(n => (
-  <button key={n} onClick={() => handleDigitClick(n)}>{n}</button>
-))}
-<button onClick={() => handleDigitClick(0)}>0</button>
-<button onClick={handleDeleteClick}>⌫</button>
-};
 ```
 
 <br>
